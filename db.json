@@ -1,0 +1,54 @@
+{
+  "todos": [
+    {
+      "id": "88f3e211-289c-4623-acb7-4eb09038fcba",
+      "text": "ali yüzbaşı deneme 1 2 3 bu böyle olmadı sanki gibidsa dsalkhfofsaşfsa fosahafjfassa",
+      "completed": false,
+      "addedTime": "13/10/2024 23:0",
+      "category": "Bugün",
+      "endDate": 1728939041890
+    },
+    {
+      "id": "1d79437c-fa38-40f6-80f7-4053a1df245a",
+      "text": "dsaffsafasfas",
+      "completed": false,
+      "addedTime": "14/10/2024 0:7",
+      "category": "Bu Hafta",
+      "endDate": 1729458474025
+    },
+    {
+      "id": "3ac44be5-0276-46f4-9b3f-7aa2688f2765",
+      "text": "fsfsafssaf",
+      "completed": false,
+      "addedTime": "14/10/2024 0:26",
+      "category": "Bu Yıl",
+      "endDate": 1760390791145
+    },
+    {
+      "id": "59570820-c4d7-4a09-91fc-a29417e0e885",
+      "text": "bu ay yapılacak",
+      "completed": false,
+      "addedTime": "14/10/2024 0:44",
+      "category": "Bu Ay",
+      "endDate": 1731447876007
+    }
+  ],
+  "completed": [
+    {
+      "id": "d2c46b87-94a9-4d1f-8fc6-c825f14178d1",
+      "text": "dasadsas",
+      "completed": true,
+      "addedTime": "14/10/2024 0:6",
+      "category": "Bu Hafta",
+      "endDate": 1729458390548
+    },
+    {
+      "id": "21afeb32-38e6-4e1d-827c-75bfd21d2613",
+      "text": "Lorem Ipsum yaklaşık 500 yıl önce bir matbaacının baskılar için hazırladığı font model kitabında kullanılmıştır. Yıllar geçtikçe kullanım alanları da kullanan kişi sayısı da artarak devam etmiştir. Kullanan insanlar uzun yıllar bunun anlamsız kelimelerden oluşan bir metin olduğunu düşündüler. Ancak sonradan edinilen bulgular aslında gerçeğin çok farklı olduğunu ortaya koydu.  Lorem Ipsum'un tarihi milattan önce 45 (MÖ.43) yılına kadar dayanıyor. O tarihlerde Çiçero tarafından yazılan \"İyi ve Kötünün Uç Sınırları\" kitabının 1.30.32 paragrafında geçtiği sonradan öğrenilmiştir. Kitap aynı zamanda 1500'lü yıllarda Avrupa'da Rönesans dönemi ile popüler olmuş, aynı dönemde Lorem Ipsum'u ilk kullanan matbaacıya da muhtemelen bu vesileyle ulaşmış.  ",
+      "completed": true,
+      "addedTime": "14/10/2024 0:10",
+      "category": "Bu Yıl",
+      "endDate": 1760389840779
+    }
+  ]
+}

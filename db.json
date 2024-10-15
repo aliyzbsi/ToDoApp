@@ -8,15 +8,6 @@
       "endDate": "2024-11-02T00:00:00.000Z",
       "addedTime": "15/10/2024 21:07",
       "category": "Bu Ay"
-    },
-    {
-      "id": "yydNK",
-      "title": "fslakçfsa",
-      "description": "fldsalfksnflsa",
-      "deadline": "2024-10-19",
-      "endDate": "2024-10-19T00:00:00.000Z",
-      "addedTime": "15/10/2024 21:10",
-      "category": "Bu Hafta"
     }
   ],
   "completed": [
@@ -30,17 +21,6 @@
       "category": "Bu Hafta",
       "completed": true,
       "completedTime": "15.10.2024 20:54:51"
-    },
-    {
-      "id": "SWgRm",
-      "title": "deneme",
-      "description": "deneme",
-      "deadline": "2024-11-01",
-      "endDate": "2024-11-01T00:00:00.000Z",
-      "addedTime": "15/10/2024 20:45",
-      "category": "Bu Ay",
-      "completed": true,
-      "completedTime": "15.10.2024 21:04:46"
     },
     {
       "id": "3IwgY",

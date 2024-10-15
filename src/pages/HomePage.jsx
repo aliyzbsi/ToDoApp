@@ -20,37 +20,6 @@ function HomePage() {
     fetchTodos();
   }, []);
 
-  /*const changeCategory = async (id, newCategory) => {
-    try {
-      const countdownDuration =
-        newCategory === "Bugün"
-          ? 24 * 60 * 60 * 1000
-          : newCategory === "Bu Hafta"
-          ? 7 * 24 * 60 * 60 * 1000
-          : newCategory === "Bu Ay"
-          ? 30 * 24 * 60 * 60 * 1000
-          : 365 * 24 * 60 * 60 * 1000;
-
-      const endDate = Date.now() + countdownDuration;
-
-      const updatedItem = {
-        ...myToDoList.find((item) => item.id === id),
-        category: newCategory,
-        endDate: endDate,
-      };
-
-      // Backend'e güncelleme isteği gönder
-      await axios.put(`http://localhost:3000/todos/${id}`, updatedItem);
-
-      // To-do listesini güncelle
-      setMyToDoList(
-        myToDoList.map((item) => (item.id === id ? updatedItem : item))
-      );
-    } catch (error) {
-      console.error("Kategori güncellenirken hata oluştu:", error);
-    }
-  };*/
-
   return (
     <div className="flex flex-col items-center gap-4">
       <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-96 text-center font-satisfy p-4">

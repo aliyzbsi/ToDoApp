@@ -97,7 +97,7 @@ function AddTask({ setMyToDoList }) {
         </div>
         <div className="flex flex-col w-96 py-2 ">
           <label htmlFor="deadline" className="text-sm pb-1">
-            Son Teslim
+            Son Tarih
           </label>
           <input
             className="border-1 p-1 text-sm rounded"

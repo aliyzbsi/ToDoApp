@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
-import Select from "react-select";
-import { options } from "../options";
-import { Input } from "reactstrap";
 
 function ToDoListItems({ myToDoList, setMyToDoList }) {
-  const [updatedToDo, setUpdatedToDo] = useState("");
-  const [editItemId, setEditItemId] = useState(null);
   const [filter, setFilter] = useState("Tümünü Gör");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [editingItemId, setEditingItemId] = useState(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [editEndDate, setEditEndDate] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,11 +31,38 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
     }
   };
 
+  const updated = async (id) => {
+    try {
+      const updatedItem = {
+        ...myToDoList.find((item) => item.id === id),
+        title: editTitle,
+        description: editDescription,
+        endDate: editEndDate,
+      };
+      await axios.put(`http://localhost:3000/todos/${id}`, updatedItem);
+      setMyToDoList(
+        myToDoList.map((item) => (item.id === id ? updatedItem : item))
+      );
+      setEditingItemId(null); // Düzenleme modunu kapat
+    } catch (error) {
+      console.log("Öğeyi güncellerken hata oluştu:", error);
+    }
+  };
+
+  const startEditing = (item) => {
+    setEditingItemId(item.id);
+    setEditTitle(item.title); // Başlığı ayarla
+    setEditDescription(item.description); // Açıklamayı ayarla
+    setEditEndDate(item.endDate); // Bitiş tarihini ayarla
+  };
+
   const completed = async (id) => {
     try {
+      const currentDateTime = new Date().toLocaleString();
       const toDoComplete = {
         ...myToDoList.find((item) => item.id === id),
         completed: true,
+        completedTime: currentDateTime,
       };
       await axios.post("http://localhost:3000/completed", toDoComplete);
       await axios.delete(`http://localhost:3000/todos/${id}`);
@@ -45,63 +72,30 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
     }
   };
 
-  const updateClick = (id, text) => {
-    setEditItemId(id);
-    setUpdatedToDo(text);
-  };
-
-  const saveUpdate = async (id) => {
-    try {
-      const updatedToDoObj = {
-        ...myToDoList.find((item) => item.id === id),
-        text: updatedToDo,
-      };
-      await axios.put(`http://localhost:3000/todos/${id}`, updatedToDoObj);
-      setMyToDoList(
-        myToDoList.map((item) => (item.id === id ? updatedToDoObj : item))
-      );
-      setEditItemId(null);
-    } catch (error) {
-      console.error("Güncelleme işlemi sırasında hata:", error);
-    }
-  };
-
-  const handleCategoryChange = async (selectedOption, id) => {
-    try {
-      let endDate;
-
-      if (selectedOption.label === "Bugün") {
-        endDate = Date.now() + 86400000;
-      } else if (selectedOption.label === "Bu Hafta") {
-        endDate = Date.now() + 86400000 * 7;
-      } else if (selectedOption.label === "Bu Ay") {
-        endDate = Date.now() + 86400000 * 30;
-      } else {
-        endDate = Date.now() + 86400000 * 365;
-      }
-      const updatedToDoObj = {
-        ...myToDoList.find((item) => item.id === id),
-        category: selectedOption.label,
-        endDate: endDate,
-      };
-      await axios.put(`http://localhost:3000/todos/${id}`, updatedToDoObj);
-      setMyToDoList(
-        myToDoList.map((item) => (item.id === id ? updatedToDoObj : item))
-      );
-    } catch (error) {
-      console.error("Kategori değişikliği sırasında hata oluştu:", error);
-    }
-  };
   const filteredList = myToDoList.filter((item) => {
-    if (filter === "Bugün") return item.category === "Bugün";
-    if (filter === "Bu Hafta") return item.category === "Bu Hafta";
-    if (filter === "Bu Ay") return item.category === "Bu Ay";
-    if (filter === "Bu Yıl") return item.category === "Bu Yıl";
-    return true;
+    const matchesSearch =
+      (item.title &&
+        item.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.description &&
+        item.description.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    switch (filter) {
+      case "Bugün":
+        return matchesSearch && item.category === "Bugün";
+      case "Bu Hafta":
+        return matchesSearch && item.category === "Bu Hafta";
+      case "Bu Ay":
+        return matchesSearch && item.category === "Bu Ay";
+      case "Bu Yıl":
+        return matchesSearch && item.category === "Bu Yıl";
+      default:
+        return matchesSearch;
+    }
   });
+
   return (
     <div>
-      <div className="flex justify-around">
+      <div className="flex flex-col gap-2 justify-around md:flex-row">
         <button
           className="bg-blue-500 text-white rounded-full px-4 py-2"
           onClick={() => setFilter("Bugün")}
@@ -125,7 +119,7 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
           onClick={() => setFilter("Bu Yıl")}
         >
           Bu Yıl
-        </button>{" "}
+        </button>
         <button
           className="bg-blue-500 text-white rounded-full px-4 py-2"
           onClick={() => setFilter("Tümünü Gör")}
@@ -133,99 +127,117 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
           Tümünü Gör
         </button>
       </div>
-
+      <div className="mt-4 flex items-center justify-center">
+        <input
+          type="text"
+          className="border-2 w-full p-2"
+          placeholder="Arama Yapın"
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
       <div className="flex flex-col text-black text-lg rounded-2xl gap-4 w-96 break-all py-4 md:w-144">
-        {filteredList.map((item) => (
-          <div
-            key={item.id}
-            className={`flex justify-between font-barlow items-center  border-b-2 p-8 mt-2
-              ${
+        {filteredList.length > 0 &&
+          filteredList.map((item) => (
+            <div
+              key={item.id}
+              className={`flex justify-between font-barlow items-center border-2 p-8 mt-2 ${
                 item.category === "Bugün"
-                  ? "bg-red-600 "
+                  ? "border-red-600"
                   : item.category === "Bu Hafta"
-                  ? "bg-orange-300"
+                  ? "border-orange-300"
                   : item.category === "Bu Ay"
-                  ? "bg-yellow-200"
-                  : "bg-green-400"
+                  ? "border-yellow-200"
+                  : "border-green-400"
               }`}
-          >
-            <div className="flex flex-col flex-1 gap-4 ">
-              <img
-                src="../../public/pin.png"
-                className="w-12 bg-white rounded-full"
-                alt="pin"
-              />
-
-              <div>
-                {editItemId === item.id ? (
-                  <div className="flex flex-col justify-between items-center gap-4 border-b-4 font-semibold md:flex-row">
-                    <Input
-                      type="textarea"
-                      value={updatedToDo}
-                      onChange={(e) => setUpdatedToDo(e.target.value)}
-                      className="text-input h-28 rounded-full p-4 m-4 w-72 md:w-96 "
-                    />
-                    <button
-                      onClick={() => saveUpdate(item.id)}
-                      className="save-button"
-                    >
+            >
+              <div className="flex flex-col flex-1 gap-4">
+                <img
+                  src="../../public/pin.png"
+                  className="w-12 bg-white rounded-full"
+                  alt="pin"
+                />
+                <div>
+                  <div className="flex flex-col justify-between gap-4 ">
+                    <div className="flex justify-between gap-4 p-2">
+                      <span className="border-2 p-2">
+                        Eklenme Zamanı: {item.addedTime}
+                      </span>
+                      <Countdown
+                        className="border-2 p-2 text-red-600"
+                        date={item.endDate}
+                      />
+                    </div>
+                    <div className="border-1 border-black">
+                      {editingItemId === item.id ? (
+                        <div>
+                          <input
+                            value={editTitle}
+                            onChange={(e) => setEditTitle(e.target.value)}
+                            className="w-full border-b p-2"
+                          />
+                          <textarea
+                            value={editDescription}
+                            onChange={(e) => setEditDescription(e.target.value)}
+                            className="w-full p-2"
+                          />
+                          <input
+                            type="date"
+                            value={editEndDate}
+                            onChange={(e) => setEditEndDate(e.target.value)}
+                            className="w-full border p-2"
+                          />
+                          <div className="flex w-full justify-center p-2">
+                            <button
+                              onClick={() => updated(item.id)}
+                              className="mt-2 "
+                            >
+                              <img
+                                src="../../public/add.png"
+                                className="w-12 hover:w-14"
+                                alt=""
+                              />
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <p className="max-w-xl uppercase font-semibold break-words whitespace-normal border-b-2 border-black p-3">
+                            {item.title}
+                          </p>
+                          <p className="text-base font-normal p-4">
+                            {item.description}
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex gap-1 items-center justify-around flex-shrink-0 p-1 bg-white rounded-full m-4">
+                    <button onClick={() => completed(item.id)}>
                       <img
-                        src="../../public/add.png"
-                        className="w-12 m-2"
-                        alt=""
+                        src="../../public/completed.png"
+                        className="w-12 hover:w-14"
+                        alt="completed"
+                      />
+                    </button>
+                    <button onClick={() => startEditing(item)}>
+                      <img
+                        src="../../public/update.png"
+                        alt="update"
+                        className="w-10 hover:w-12"
+                      />
+                    </button>
+                    <button onClick={() => removeClick(item.id)}>
+                      <img
+                        src="../../public/delete.png"
+                        alt="delete"
+                        className="w-10 hover:w-12"
                       />
                     </button>
                   </div>
-                ) : (
-                  <div className="flex flex-col justify-between gap-4 border-b-4 font-semibold">
-                    <div className="flex justify-between gap-4 text-white p-2  bg-black font-semibold">
-                      <span>Eklenme Zamanı: {item.addedTime}</span>
-                      <Countdown date={item.endDate} />
-                    </div>
-
-                    <p className="max-w-xl break-words whitespace-normal bg-black text-white border-t-4 p-2">
-                      {item.text}
-                    </p>
-                  </div>
-                )}
-
-                {editItemId === item.id && (
-                  <Select
-                    value={options.find((opt) => opt.label === item.category)}
-                    onChange={(option) => handleCategoryChange(option, item.id)}
-                    options={options}
-                    placeholder="Kategori Seçin"
-                    className="w-full "
-                  />
-                )}
-
-                <div className="flex gap-1 items-center justify-around flex-shrink-0 p-1 bg-white rounded-full m-4">
-                  <button onClick={() => completed(item.id)}>
-                    <img
-                      src="../../public/completed.png"
-                      className="w-12 hover:w-14"
-                      alt="completed"
-                    />
-                  </button>
-                  <button onClick={() => updateClick(item.id, item.text)}>
-                    <img
-                      src="../../public/update.png"
-                      alt="update"
-                      className="w-10 hover:w-12"
-                    />
-                  </button>
-                  <button onClick={() => removeClick(item.id)}>
-                    <img
-                      src="../../public/delete.png"
-                      className="w-12 hover:w-14"
-                      alt="delete"
-                    />
-                  </button>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function CompletedPages() {
   const [completed, setCompleted] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     const fetchComplete = async () => {
@@ -13,6 +14,25 @@ function CompletedPages() {
     };
     fetchComplete();
   }, [setCompleted]);
+
+  const remove = async (id) => {
+    try {
+      await axios.delete(`http://localhost:3000/completed/${id}`);
+      setCompleted(completed.filter((item) => item.id !== id));
+    } catch (error) {
+      console.error("Öğeyi silerken hata oluştu:", error);
+    }
+  };
+
+  const filteredList = completed.filter((item) => {
+    const matchesSearch =
+      (item.title &&
+        item.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (item.description &&
+        item.description.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    return matchesSearch;
+  });
 
   return (
     <div className="flex flex-col items-center ">
@@ -27,47 +47,67 @@ function CompletedPages() {
       <button onClick={() => navigate("/")} className="p-3">
         <img src="../../public/add.png" className="w-12 hover:w-14" alt="" />
       </button>
-      <div className="flex flex-col  text-black text-lg rounded-2xl gap-4 w-96 break-all py-4 md:w-144">
-        {completed.map((item) => (
-          <div
-            key={item.id}
-            className={`flex justify-between font-barlow items-center border-b-2 p-2 mt-2
-            ${
-              item.category === "Bugün"
-                ? "bg-red-400 "
-                : item.category === "Bu Hafta"
-                ? "bg-orange-300"
-                : item.category === "Bu Ay"
-                ? "bg-yellow-200"
-                : "bg-green-400"
-            }`}
-          >
-            <div className="flex flex-col flex-1 gap-4">
-              <img
-                src="../../public/pin.png"
-                className="w-12 bg-white rounded-full"
-                alt="pin"
-              />
-              <div>
-                <div className="flex justify-between gap-4 border-b-4  font-semibold">
-                  <span>Eklenme Zamanı : {item.addedTime}</span>
-                  <span
-                    className={`${
-                      item.category === "Bugün" ? "text-white" : "text-red-600"
-                    }`}
-                  >
-                    <Countdown date={0} />
-                  </span>
+      <div className="flex">
+        <input
+          type="text"
+          className="border-2 w-80 p-2"
+          placeholder="Arama .."
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+      <div className="flex flex-col text-black text-lg rounded-2xl gap-4 w-96 break-all py-4 md:w-144">
+        {filteredList.length > 0 &&
+          filteredList.map((item) => (
+            <div
+              key={item.id}
+              className={`flex justify-between font-barlow items-center border-2 p-8 mt-2 ${
+                item.category === "Bugün"
+                  ? "border-red-600"
+                  : item.category === "Bu Hafta"
+                  ? "border-orange-300"
+                  : item.category === "Bu Ay"
+                  ? "border-yellow-200"
+                  : "border-green-400"
+              }`}
+            >
+              <div className="flex flex-col flex-1 gap-4">
+                <img
+                  src="../../public/pin.png"
+                  className="w-12 bg-white rounded-full"
+                  alt="pin"
+                />
+                <div>
+                  <div className="flex flex-col justify-between gap-4 ">
+                    <div className="flex justify-between gap-4 p-2">
+                      <span className="border-2 text-center">
+                        Eklenme Zamanı: {item.addedTime}
+                      </span>
+                      <span className="border-2 text-center">
+                        Tamamlanma Tarihi:{item.completedTime}
+                      </span>
+                    </div>
+                    <div className="border-1 border-black">
+                      <p className="max-w-xl uppercase font-semibold break-words whitespace-normal border-b-2 border-black p-3">
+                        {item.title}
+                      </p>
+                      <p className="text-base font-normal p-4">
+                        {item.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex">
-                  <p className="max-w-xl break-words whitespace-normal p-2">
-                    {item.text}
-                  </p>
+                <div className="flex items-end justify-end">
+                  <button onClick={() => remove(item.id)}>
+                    <img
+                      src="../../public/delete.png"
+                      className="w-12 hover:w-14"
+                      alt="delete"
+                    />
+                  </button>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );

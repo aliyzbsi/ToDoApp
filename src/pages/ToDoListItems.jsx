@@ -43,7 +43,7 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
       setMyToDoList(
         myToDoList.map((item) => (item.id === id ? updatedItem : item))
       );
-      setEditingItemId(null); // Düzenleme modunu kapat
+      setEditingItemId(null);
     } catch (error) {
       console.log("Öğeyi güncellerken hata oluştu:", error);
     }
@@ -51,9 +51,9 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
 
   const startEditing = (item) => {
     setEditingItemId(item.id);
-    setEditTitle(item.title); // Başlığı ayarla
-    setEditDescription(item.description); // Açıklamayı ayarla
-    setEditEndDate(item.endDate); // Bitiş tarihini ayarla
+    setEditTitle(item.title);
+    setEditDescription(item.description);
+    setEditEndDate(item.endDate);
   };
 
   const completed = async (id) => {
@@ -71,6 +71,19 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
       console.error("Öğeyi tamamlarken hata oluştu:", error);
     }
   };
+  const failed = async (item) => {
+    try {
+      const toDoFailed = {
+        ...item,
+        failed: true,
+      };
+      await axios.post("http://localhost:3000/failed", toDoFailed);
+      await axios.delete(`http://localhost:3000/todos/${item.id}`);
+      setMyToDoList(myToDoList.filter((todo) => todo.id !== item.id));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const filteredList = myToDoList.filter((item) => {
     const matchesSearch =
@@ -78,10 +91,14 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
         item.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (item.description &&
         item.description.toLowerCase().includes(searchTerm.toLowerCase()));
-
+    //hashmap
+    const categories = {
+      today: "Bugün",
+      toweek: "Bu Hafta",
+    };
     switch (filter) {
-      case "Bugün":
-        return matchesSearch && item.category === "Bugün";
+      case categories.today:
+        return matchesSearch && item.category === categories.today;
       case "Bu Hafta":
         return matchesSearch && item.category === "Bu Hafta";
       case "Bu Ay":
@@ -165,6 +182,7 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
                       <Countdown
                         className="border-2 p-2 text-red-600"
                         date={item.endDate}
+                        onComplete={() => failed(item)}
                       />
                     </div>
                     <div className="border-1 border-black">

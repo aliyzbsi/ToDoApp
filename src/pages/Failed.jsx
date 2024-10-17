@@ -2,28 +2,18 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function CompletedPages() {
-  const [completed, setCompleted] = useState([]);
+function Failed() {
+  const [failed, setFailed] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
-    const fetchComplete = async () => {
-      const response = await axios.get("http://localhost:3000/completed");
-      setCompleted(response.data);
+    const fetchFailed = async () => {
+      const response = await axios.get("http://localhost:3000/failed");
+      setFailed(response.data);
     };
-    fetchComplete();
-  }, [setCompleted]);
-
-  const remove = async (id) => {
-    try {
-      await axios.delete(`http://localhost:3000/completed/${id}`);
-      setCompleted(completed.filter((item) => item.id !== id));
-    } catch (error) {
-      console.error("Öğeyi silerken hata oluştu:", error);
-    }
-  };
-
-  const filteredList = completed.filter((item) => {
+    fetchFailed();
+  }, [setFailed]);
+  const filteredList = failed.filter((item) => {
     const matchesSearch =
       (item.title &&
         item.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -32,15 +22,10 @@ function CompletedPages() {
 
     return matchesSearch;
   });
-
   return (
     <div className="flex flex-col items-center ">
       <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-96 text-center font-satisfy p-4 gap-2">
-        <img
-          src="../../public/completed.png"
-          alt="to-do-icons"
-          className="w-36"
-        />{" "}
+        <img src="../../public/failed.png" alt="to-do-icons" className="w-36" />{" "}
         TO-DO APP
       </h1>
       <button onClick={() => navigate("/")} className="p-3">
@@ -59,22 +44,29 @@ function CompletedPages() {
           filteredList.map((item) => (
             <div
               key={item.id}
-              className="flex justify-between font-barlow items-center border-2 p-8 mt-2 border-black"
+              className="flex justify-between font-barlow items-center border-4 p-8 mt-2 border-red-600"
             >
               <div className="flex flex-col flex-1 gap-4">
                 <img
-                  src="../../public/done.png"
+                  src="../../public/failed.png"
                   className="w-12 bg-white rounded-full"
                   alt="pin"
                 />
                 <div>
                   <div className="flex flex-col justify-between gap-4 ">
-                    <div className="flex justify-between gap-4 p-2">
+                    <div className="flex justify-between  gap-4 p-2">
                       <span className="border-2 text-center flex-1">
                         Eklenme Zamanı: <br /> {item.addedTime}
                       </span>
                       <span className="border-2 text-center flex-1">
-                        Tamamlanma Tarihi: <br /> {item.completedTime}
+                        <div className="flex flex-col items-center">
+                          Tamamlanma Tarihi:{" "}
+                          <img
+                            src="../../public/failed.png"
+                            className="w-20"
+                            alt=""
+                          />
+                        </div>
                       </span>
                     </div>
                     <div className="border-1 border-black">
@@ -87,15 +79,6 @@ function CompletedPages() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-end justify-end">
-                  <button onClick={() => remove(item.id)}>
-                    <img
-                      src="../../public/delete.png"
-                      className="w-12 hover:w-14"
-                      alt="delete"
-                    />
-                  </button>
-                </div>
               </div>
             </div>
           ))}
@@ -104,4 +87,4 @@ function CompletedPages() {
   );
 }
 
-export default CompletedPages;
+export default Failed;

@@ -3,7 +3,7 @@
     {
       "id": "GOCwt",
       "title": "ali",
-      "description": "ahmet mehmet ayşe fatma",
+      "description": "ahmet mehmet ayşe fatma dsfas",
       "deadline": "2024-11-02",
       "endDate": "2024-11-02T00:00:00.000Z",
       "addedTime": "15/10/2024 21:07",
@@ -43,6 +43,18 @@
       "category": "Bu Ay",
       "completed": true,
       "completedTime": "15.10.2024 21:07:23"
+    }
+  ],
+  "failed": [
+    {
+      "id": "5PuSx",
+      "title": "ertuğrul",
+      "description": "denemeeeee",
+      "deadline": "2024-10-17",
+      "endDate": "2024-10-16T00:17:30.000Z",
+      "addedTime": "16/10/2024 17:05",
+      "category": "Bugün",
+      "failed": true
     }
   ]
 }

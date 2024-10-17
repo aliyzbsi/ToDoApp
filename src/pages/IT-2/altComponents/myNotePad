@@ -1,0 +1,99 @@
+import { useState, useEffect } from 'react';
+
+function useLocalStorage(key, initialValue) {
+  // İlk olarak localStorage'da bu anahtara karşılık bir değer var mı diye bakıyoruz
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = localStorage.getItem(key);
+      // Eğer localStorage'da bu değer varsa, JSON olarak geri döndür
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.log(error);
+      return initialValue;
+    }
+  });
+
+  // Değer her değiştiğinde localStorage'ı güncelliyoruz
+  const setValue = (value) => {
+    try {
+      // State'i güncelle
+      setStoredValue(value);
+      // LocalStorage'ı güncelle
+      localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return [storedValue, setValue];
+}
+
+
+import React from 'react';
+import useLocalStorage from './useLocalStorage'; // Hook'u import ediyoruz
+
+function App() {
+  const [name, setName] = useLocalStorage('name', ''); // 'name' anahtarı ile localStorage kullanıyoruz
+
+  return (
+    <div>
+      <h1>Merhaba, {name || "Yabancı"}!</h1>
+      <input
+        type="text"
+        placeholder="İsminizi girin"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <button onClick={() => setName('')}>Beni unut</button>
+    </div>
+  );
+}
+
+export default App;
+import { useState, useEffect } from 'react';
+
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [url]);
+
+  return { data, loading, error };
+}
+import React from 'react';
+import useFetch from './useFetch';
+
+function App() {
+  const { data, loading, error } = useFetch('https://jsonplaceholder.typicode.com/posts');
+
+  if (loading) return <div>Yükleniyor...</div>;
+  if (error) return <div>Bir hata oluştu: {error.message}</div>;
+
+  return (
+    <div>
+      <h1>Veriler:</h1>
+      <ul>
+        {data.map((item) => (
+          <li key={item.id}>{item.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+export default App;

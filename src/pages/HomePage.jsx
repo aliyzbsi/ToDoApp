@@ -29,14 +29,22 @@ function HomePage() {
       <div className="flex flex-col justify-around gap-10">
         <AddTask myToDoList={myToDoList} setMyToDoList={setMyToDoList} />
         <div className="flex flex-col h-screen items-center gap-10 ">
-          <button onClick={() => navigate("/tamamlananlar")}>
-            <img
-              src="../../public/completed.png"
-              className="w-12 hover:w-14"
-              alt=""
-            />
-          </button>
-
+          <div className="flex gap-4">
+            <button onClick={() => navigate("/tamamlananlar")}>
+              <img
+                src="../../public/completed.png"
+                className="w-12 hover:w-14"
+                alt="completed"
+              />
+            </button>
+            <button onClick={() => navigate("/failed")}>
+              <img
+                src="../../public/failed.png"
+                className="w-12 hover:w-14"
+                alt="failed"
+              />
+            </button>
+          </div>
           <ToDoListItems
             myToDoList={myToDoList}
             setMyToDoList={setMyToDoList}

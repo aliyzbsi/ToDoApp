@@ -18,55 +18,61 @@ function Failed({ failed }) {
     return matchesSearch;
   });
   return (
-    <div className="flex flex-col items-center ">
-      <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-96 text-center font-satisfy p-4 gap-2">
-        <img src={failedpng} alt="to-do-icons" className="w-36" /> TO-DO APP
+    <div className="flex flex-col items-center">
+      <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-full max-w-md text-center font-satisfy p-4 gap-2">
+        <img src={failedpng} alt="to-do-icons" className="w-12 md:w-36" /> TO-DO
+        APP
       </h1>
       <button onClick={() => navigate("/")} className="p-3">
-        <img src={addpng} className="w-12 hover:w-14" alt="" />
+        <img src={addpng} className="w-10 md:w-12 hover:w-14" alt="" />{" "}
       </button>
-      <div className="flex">
+      <div className="flex w-full max-w-md">
+        {" "}
         <input
           type="text"
-          className="border-2 w-80 p-2"
+          className="border-2 flex-1 p-2"
           placeholder="Arama .."
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
-      <div className="flex flex-col text-black text-lg rounded-2xl gap-4 w-96 break-all py-4 md:w-144">
+      <div className="flex flex-col text-black text-lg rounded-2xl gap-4 w-full max-w-md break-all py-4">
+        {" "}
         {filteredList.length > 0 &&
           filteredList.map((item) => (
             <div
               key={item.id}
-              className="flex justify-between font-barlow items-center border-4 p-8 mt-2 border-red-600"
+              className="flex flex-col border-4 p-4 mt-2 border-red-600 rounded-lg"
             >
-              <div className="flex flex-col flex-1 gap-4">
+              <div className="flex flex-col gap-2">
                 <img
                   src={failedpng}
-                  className="w-12 bg-white rounded-full"
+                  className="w-12 bg-white rounded-full mx-auto"
                   alt="pin"
                 />
-                <div>
-                  <div className="flex flex-col justify-between gap-4 ">
-                    <div className="flex justify-between  gap-4 p-2">
-                      <span className="border-2 text-center flex-1">
-                        Eklenme Zamanı: <br /> {item.addedTime}
-                      </span>
-                      <span className="border-2 text-center flex-1">
-                        <div className="flex flex-col items-center">
-                          Tamamlanma Tarihi:{" "}
-                          <img src={failedpng} className="w-20" alt="" />
-                        </div>
-                      </span>
-                    </div>
-                    <div className="border-1 border-black">
-                      <p className="max-w-xl uppercase font-semibold break-words whitespace-normal border-b-2 border-black p-3">
-                        {item.title}
-                      </p>
-                      <p className="text-base font-normal p-4">
-                        {item.description}
-                      </p>
-                    </div>
+                <div className="flex flex-col gap-2">
+                  <div className="flex justify-between gap-2">
+                    {" "}
+                    <span className="border-2 text-center flex-1 p-2">
+                      {" "}
+                      Eklenme Zamanı: <br /> {item.addedTime}
+                    </span>
+                    <span className="border-2 text-center flex-1 p-2">
+                      {" "}
+                      <div className="flex flex-col items-center">
+                        Tamamlanma Tarihi:{" "}
+                        <img src={failedpng} className="w-16 md:w-20" alt="" />{" "}
+                      </div>
+                    </span>
+                  </div>
+                  <div className="border-1 border-black">
+                    <p className="max-w-xl uppercase font-semibold break-words whitespace-normal border-b-2 border-black p-2">
+                      {" "}
+                      {item.title}
+                    </p>
+                    <p className="text-base font-normal p-2">
+                      {" "}
+                      {item.description}
+                    </p>
                   </div>
                 </div>
               </div>

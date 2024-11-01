@@ -18,13 +18,14 @@ function HomePage({
   const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col items-center gap-4 ">
-      <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-96 text-center font-satisfy p-4">
+    <div className="flex flex-col items-center gap-4">
+      <h1 className="flex items-center text-4xl border-b-4 border-yellow-500  text-center font-satisfy p-4">
         <img src={todopng} alt="to-do-icons" className="w-36" /> TO-DO APP
       </h1>
-      <div className="flex flex-col justify-around gap-10">
+      <div className="flex flex-col justify-around gap-10 w-full max-w-md">
+        {" "}
         <AddTask myToDoList={myToDoList} setMyToDoList={setMyToDoList} />
-        <div className="flex flex-col h-screen items-center gap-10 ">
+        <div className="flex flex-col items-center gap-10">
           <div className="flex gap-4">
             <button onClick={() => navigate("/tamamlananlar")}>
               <img
@@ -37,14 +38,17 @@ function HomePage({
               <img src={failedpng} className="w-12 hover:w-14" alt="failed" />
             </button>
           </div>
-          <ToDoListItems
-            myToDoList={myToDoList}
-            setMyToDoList={setMyToDoList}
-            completed={completed}
-            setCompleted={setCompleted}
-            failed={failed}
-            setFailed={setFailed}
-          />
+          <div className="flex flex-col w-full">
+            {" "}
+            <ToDoListItems
+              myToDoList={myToDoList}
+              setMyToDoList={setMyToDoList}
+              completed={completed}
+              setCompleted={setCompleted}
+              failed={failed}
+              setFailed={setFailed}
+            />
+          </div>
         </div>
       </div>
     </div>

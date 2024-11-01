@@ -45,17 +45,18 @@ function AddTask({ setMyToDoList }) {
   };
 
   return (
-    <div className="border-2 border-red-500">
+    <div className="border-2">
       <form
-        className="p-2 border flex flex-col items-center gap-4  "
+        className="p-2 border flex flex-col items-center gap-4 w-full max-w-md"
         onSubmit={handleSubmit(submitForm)}
       >
-        <div className="flex flex-col pt-1 w-96">
+        <div className="flex flex-col w-full">
+          {" "}
           <label htmlFor="title" className="text-lg">
             Başlık
           </label>
           <input
-            className="border-1"
+            className="border-1 p-2 rounded"
             type="text"
             id="title"
             name="title"
@@ -71,12 +72,14 @@ function AddTask({ setMyToDoList }) {
             <p className="text-red-500">{errors.title.message}</p>
           )}
         </div>
-        <div className="flex flex-col w-96">
+        <div className="flex flex-col w-full">
+          {" "}
+          {/* Genişlik ayarı eklendi */}
           <label htmlFor="description" className="text-normal">
             Açıklama
           </label>
           <textarea
-            className="border-1"
+            className="border-1 p-2 rounded" // Padding ve köşe yuvarlama eklendi
             id="description"
             name="description"
             {...register("description", {
@@ -91,12 +94,12 @@ function AddTask({ setMyToDoList }) {
             <p className="text-red-500">{errors.description.message}</p>
           )}
         </div>
-        <div className="flex flex-col w-96 py-2 ">
+        <div className="flex flex-col w-full py-2">
           <label htmlFor="deadline" className="text-sm pb-1">
             Son Tarih
           </label>
           <input
-            className="border-1 p-1 text-sm rounded"
+            className="border-1 p-1 text-sm rounded w-full" // Padding, köşe yuvarlama ve genişlik eklendi
             type="date"
             {...register("deadline", {
               required: "Son gün seçmelisiniz",
@@ -110,7 +113,11 @@ function AddTask({ setMyToDoList }) {
           )}
         </div>
         <div>
-          <button className="submit-button" type="submit" disabled={!isValid}>
+          <button
+            className="submit-button p-2 rounded text-white" // Arka plan ve yazı rengi eklendi
+            type="submit"
+            disabled={!isValid}
+          >
             <img src={addpng} className="w-12 hover:w-14" alt="add" />
           </button>
         </div>

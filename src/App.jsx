@@ -5,15 +5,42 @@ import MainLayout from "./layouts/MainLayout";
 import CompletedPages from "./pages/CompletedPages";
 
 import Failed from "./pages/Failed";
+import useLocalStorage from "./hooks/useLocaleStorage";
 
 function App() {
+  const [failed, setFailed] = useLocalStorage("failed", []);
+  const [myToDoList, setMyToDoList] = useLocalStorage("myTodo", []);
+  const [completed, setCompleted] = useLocalStorage("completed", []);
   return (
     <>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/tamamlananlar" element={<CompletedPages />} />
-          <Route path="/failed" element={<Failed />} />
+          <Route
+            path="/"
+            element={
+              <HomePage
+                myToDoList={myToDoList}
+                setMyToDoList={setMyToDoList}
+                completed={completed}
+                setCompleted={setCompleted}
+                failed={failed}
+                setFailed={setFailed}
+              />
+            }
+          />
+          <Route
+            path="/tamamlananlar"
+            element={
+              <CompletedPages
+                completed={completed}
+                setCompleted={setCompleted}
+              />
+            }
+          />
+          <Route
+            path="/failed"
+            element={<Failed failed={failed} setFailed={setFailed} />}
+          />
         </Route>
       </Routes>
     </>

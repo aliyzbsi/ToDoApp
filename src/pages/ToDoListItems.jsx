@@ -15,7 +15,14 @@ import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
 import { db } from "../firebase";
 
-function ToDoListItems({ myToDoList, setMyToDoList }) {
+function ToDoListItems({
+  myToDoList,
+  setMyToDoList,
+  setCompleted,
+  completed,
+  failed,
+  setFailed,
+}) {
   const [filter, setFilter] = useState("Tümünü Gör");
   const [searchTerm, setSearchTerm] = useState("");
   const [editingItemId, setEditingItemId] = useState(null);
@@ -23,25 +30,8 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
   const [editDescription, setEditDescription] = useState("");
   const [editEndDate, setEditEndDate] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const querySnapShot = await getDocs(collection(db, "todos"));
-        const todoList = querySnapShot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setMyToDoList(todoList);
-      } catch (error) {
-        console.error("Veri yüklenirken hata oluştu:", error);
-      }
-    };
-    fetchData();
-  }, [setMyToDoList]);
-
   const removeClick = async (id) => {
     try {
-      await deleteDoc(doc(db, "todos", id));
       setMyToDoList(myToDoList.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Öğeyi silerken hata oluştu:", error);
@@ -55,8 +45,6 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
         description: editDescription,
         endDate: editEndDate,
       };
-      const todoRef = doc(db, "todos", id);
-      await updateDoc(todoRef, updatedItem);
 
       setMyToDoList(
         myToDoList.map((item) =>
@@ -76,7 +64,7 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
     setEditEndDate(item.endDate);
   };
 
-  const completed = async (id) => {
+  const markAsCompleted = async (id) => {
     try {
       const currentDateTime = new Date().toLocaleString();
       const toDoComplete = {
@@ -84,35 +72,23 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
         completed: true,
         completedTime: currentDateTime,
       };
-      // 1. Önce `completed` koleksiyonuna yeni belge ekle
-      await addDoc(collection(db, "completed"), toDoComplete);
 
-      // 2. Ardından `todos` koleksiyonundaki belgeyi sil
-      const todoRef = doc(db, "todos", id);
-      await deleteDoc(todoRef);
+      setCompleted([...completed, toDoComplete]);
 
-      // 3. Ekrandaki görevi kaldır
       setMyToDoList((prevList) => prevList.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Öğeyi tamamlarken hata oluştu:", error);
     }
   };
-  const failed = async (item) => {
+  const markAsFailed = async (item) => {
     try {
-      // `failed` koleksiyonuna eklemek için gerekli veri
       const toDoFailed = {
         ...item,
         failed: true,
       };
 
-      // 1. Süresi dolan görevi `failed` koleksiyonuna ekle
-      await addDoc(collection(db, "failed"), toDoFailed);
+      setFailed([...failed, toDoFailed]);
 
-      // 2. `todos` koleksiyonundaki görevi sil
-      const todoRef = doc(db, "todos", item.id);
-      await deleteDoc(todoRef);
-
-      // 3. Ekrandaki görev listesinden kaldır
       setMyToDoList((prevList) =>
         prevList.filter((todo) => todo.id !== item.id)
       );
@@ -221,7 +197,7 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
                       <Countdown
                         className="border-2 p-2 text-red-600"
                         date={new Date(item.endDate)}
-                        onComplete={() => failed(item)}
+                        onComplete={() => markAsFailed(item)}
                       />
                     </div>
                     <div className="border-1 border-black">
@@ -269,7 +245,7 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
                     </div>
                   </div>
                   <div className="flex gap-1 items-center justify-around flex-shrink-0 p-1 bg-white rounded-full m-4">
-                    <button onClick={() => completed(item.id)}>
+                    <button onClick={() => markAsCompleted(item.id)}>
                       <img
                         src={completedpng}
                         className="w-12 hover:w-14"

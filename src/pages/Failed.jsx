@@ -1,30 +1,13 @@
 import failedpng from "../../public/assets/failed.png";
 import addpng from "../../public/assets/add.png";
 
-import { collection, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "../firebase";
 
-function Failed() {
-  const [failed, setFailed] = useState([]);
+function Failed({ failed }) {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchFailed = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "failed"));
-        const todoList = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setFailed(todoList);
-      } catch (error) {
-        console.error("Veri yüklenirken hata oluştu:", error);
-      }
-    };
-    fetchFailed();
-  }, [setFailed]);
+
   const filteredList = failed.filter((item) => {
     const matchesSearch =
       (item.title &&

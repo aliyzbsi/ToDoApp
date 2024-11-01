@@ -1,37 +1,21 @@
-import { useEffect, useState } from "react";
 import ToDoListItems from "./ToDoListItems";
 import todopng from "../../public/assets/todo.png";
 import completedpng from "../../public/assets/completed.png";
 import failedpng from "../../public/assets/failed.png";
 
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import AddTask from "./AddTask";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
 
-function HomePage() {
-  const [myToDoList, setMyToDoList] = useState([]);
-
+function HomePage({
+  myToDoList,
+  setMyToDoList,
+  completed,
+  setCompleted,
+  failed,
+  setFailed,
+}) {
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchTodos = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "todos"));
-        const todoList = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setMyToDoList(todoList);
-      } catch (error) {
-        console.error("Veri yüklenirken hata oluştu:", error);
-      }
-    };
-
-    fetchTodos();
-  }, []);
 
   return (
     <div className="flex flex-col items-center gap-4">
@@ -56,6 +40,10 @@ function HomePage() {
           <ToDoListItems
             myToDoList={myToDoList}
             setMyToDoList={setMyToDoList}
+            completed={completed}
+            setCompleted={setCompleted}
+            failed={failed}
+            setFailed={setFailed}
           />
         </div>
       </div>

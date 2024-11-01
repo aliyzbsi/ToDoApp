@@ -1,11 +1,8 @@
-import addpng from "../../public/assets/add.png";
 import { useForm } from "react-hook-form";
 import { nanoid } from "nanoid";
-
+import addpng from "../../public/assets/add.png";
 import { format, differenceInDays } from "date-fns";
 import { tr } from "date-fns/locale";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../firebase";
 
 function AddTask({ setMyToDoList }) {
   const {
@@ -43,17 +40,8 @@ function AddTask({ setMyToDoList }) {
       category: category,
     };
 
-    try {
-      const docRef = await addDoc(collection(db, "todos"), taskData);
-      console.log("Belge eklendi,ID", docRef.id);
-      setMyToDoList((prevList) => [
-        ...prevList,
-        { ...taskData, id: docRef.id },
-      ]);
-      reset();
-    } catch (error) {
-      console.error("veri eklenemedi", error);
-    }
+    setMyToDoList((prevList) => [...prevList, taskData]);
+    reset();
   };
 
   return (

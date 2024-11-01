@@ -2,34 +2,16 @@ import completedpng from "../../public/assets/completed.png";
 import donepng from "../../public/assets/done.png";
 import deletepng from "../../public/assets/delete.png";
 import addpng from "../../public/assets/add.png";
-import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { db } from "../firebase";
 
-function CompletedPages() {
-  const [completed, setCompleted] = useState([]);
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+function CompletedPages({ completed, setCompleted }) {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-  useEffect(() => {
-    const fetchComplete = async () => {
-      try {
-        const querySnapShot = await getDocs(collection(db, "completed"));
-        const todoList = querySnapShot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setCompleted(todoList);
-      } catch (error) {
-        console.error("Veri yüklenirken hata oluştu:", error);
-      }
-    };
-    fetchComplete();
-  }, [setCompleted]);
 
   const remove = async (id) => {
     try {
-      await deleteDoc(doc(db, "completed", id));
       setCompleted(completed.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Öğeyi silerken hata oluştu:", error);

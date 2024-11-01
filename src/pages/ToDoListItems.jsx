@@ -1,6 +1,15 @@
 import axios from "axios";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  updateDoc,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Countdown from "react-countdown";
+import { db } from "../firebase";
 
 function ToDoListItems({ myToDoList, setMyToDoList }) {
   const [filter, setFilter] = useState("Tümünü Gör");
@@ -13,8 +22,12 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/todos");
-        setMyToDoList(response.data);
+        const querySnapShot = await getDocs(collection(db, "todos"));
+        const todoList = querySnapShot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setMyToDoList(todoList);
       } catch (error) {
         console.error("Veri yüklenirken hata oluştu:", error);
       }
@@ -24,7 +37,7 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
 
   const removeClick = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/todos/${id}`);
+      await deleteDoc(doc(db, "todos", id));
       setMyToDoList(myToDoList.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Öğeyi silerken hata oluştu:", error);
@@ -34,14 +47,17 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
   const updated = async (id) => {
     try {
       const updatedItem = {
-        ...myToDoList.find((item) => item.id === id),
         title: editTitle,
         description: editDescription,
         endDate: editEndDate,
       };
-      await axios.put(`http://localhost:3000/todos/${id}`, updatedItem);
+      const todoRef = doc(db, "todos", id);
+      await updateDoc(todoRef, updatedItem);
+
       setMyToDoList(
-        myToDoList.map((item) => (item.id === id ? updatedItem : item))
+        myToDoList.map((item) =>
+          item.id === id ? { ...item, ...updatedItem } : item
+        )
       );
       setEditingItemId(null);
     } catch (error) {
@@ -64,24 +80,43 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
         completed: true,
         completedTime: currentDateTime,
       };
-      await axios.post("http://localhost:3000/completed", toDoComplete);
-      await axios.delete(`http://localhost:3000/todos/${id}`);
-      setMyToDoList(myToDoList.filter((item) => item.id !== id));
+      // 1. Önce `completed` koleksiyonuna yeni belge ekle
+      await addDoc(collection(db, "completed"), toDoComplete);
+
+      // 2. Ardından `todos` koleksiyonundaki belgeyi sil
+      const todoRef = doc(db, "todos", id);
+      await deleteDoc(todoRef);
+
+      // 3. Ekrandaki görevi kaldır
+      setMyToDoList((prevList) => prevList.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Öğeyi tamamlarken hata oluştu:", error);
     }
   };
   const failed = async (item) => {
     try {
+      // `failed` koleksiyonuna eklemek için gerekli veri
       const toDoFailed = {
         ...item,
         failed: true,
       };
-      await axios.post("http://localhost:3000/failed", toDoFailed);
-      await axios.delete(`http://localhost:3000/todos/${item.id}`);
-      setMyToDoList(myToDoList.filter((todo) => todo.id !== item.id));
+
+      // 1. Süresi dolan görevi `failed` koleksiyonuna ekle
+      await addDoc(collection(db, "failed"), toDoFailed);
+
+      // 2. `todos` koleksiyonundaki görevi sil
+      const todoRef = doc(db, "todos", item.id);
+      await deleteDoc(todoRef);
+
+      // 3. Ekrandaki görev listesinden kaldır
+      setMyToDoList((prevList) =>
+        prevList.filter((todo) => todo.id !== item.id)
+      );
     } catch (error) {
-      console.log(error);
+      console.error(
+        "Görevi `failed` koleksiyonuna eklerken hata oluştu:",
+        error
+      );
     }
   };
 
@@ -181,7 +216,7 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
                       </span>
                       <Countdown
                         className="border-2 p-2 text-red-600"
-                        date={item.endDate}
+                        date={new Date(item.endDate)}
                         onComplete={() => failed(item)}
                       />
                     </div>

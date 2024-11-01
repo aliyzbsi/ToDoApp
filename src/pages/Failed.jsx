@@ -1,6 +1,8 @@
 import axios from "axios";
+import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { db } from "../firebase";
 
 function Failed() {
   const [failed, setFailed] = useState([]);
@@ -8,8 +10,16 @@ function Failed() {
   const navigate = useNavigate();
   useEffect(() => {
     const fetchFailed = async () => {
-      const response = await axios.get("http://localhost:3000/failed");
-      setFailed(response.data);
+      try {
+        const querySnapshot = await getDocs(collection(db, "failed"));
+        const todoList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setFailed(todoList);
+      } catch (error) {
+        console.error("Veri yüklenirken hata oluştu:", error);
+      }
     };
     fetchFailed();
   }, [setFailed]);

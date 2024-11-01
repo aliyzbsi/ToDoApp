@@ -34,15 +34,15 @@
       "completedTime": "15.10.2024 21:04:48"
     },
     {
-      "id": "sI8J8",
-      "title": "İnsan",
-      "description": "İnsan yemek yer ali",
-      "deadline": "2024-10-24",
-      "endDate": "2024-10-24T00:00:00.000Z",
-      "addedTime": "15/10/2024 21:07",
+      "id": "mzRJD",
+      "title": "Ali",
+      "description": "deneme yapalım",
+      "deadline": "2024-11-16",
+      "endDate": "2024-11-16T00:00:00.000Z",
+      "addedTime": "01/11/2024 17:58",
       "category": "Bu Ay",
       "completed": true,
-      "completedTime": "15.10.2024 21:07:23"
+      "completedTime": "01.11.2024 17:58:09"
     }
   ],
   "failed": [
@@ -53,6 +53,19 @@
       "deadline": "2024-10-17",
       "endDate": "2024-10-16T00:17:30.000Z",
       "addedTime": "16/10/2024 17:05",
+      "category": "Bugün",
+      "failed": true
+    },
+    {
+      "id": "F82LH",
+      "title": "ali ",
+      "description": "denemeeeee",
+      "deadline": "2024-11-02",
+      "endDate": {
+        "seconds": 1730505600,
+        "nanoseconds": 0
+      },
+      "addedTime": "01/11/2024 18:55",
       "category": "Bugün",
       "failed": true
     }

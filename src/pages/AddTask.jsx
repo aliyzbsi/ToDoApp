@@ -4,6 +4,8 @@ import { nanoid } from "nanoid";
 import axios from "axios";
 import { format, differenceInDays } from "date-fns";
 import { tr } from "date-fns/locale";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../firebase";
 
 function AddTask({ setMyToDoList }) {
   const {
@@ -41,11 +43,17 @@ function AddTask({ setMyToDoList }) {
       category: category,
     };
 
-    console.log(taskData);
-    const response = await axios.post("http://localhost:3000/todos", taskData);
-    console.log(response.data);
-    setMyToDoList((prevList) => [...prevList, response.data]);
-    reset();
+    try {
+      const docRef = await addDoc(collection(db, "todos"), taskData);
+      console.log("Belge eklendi,ID", docRef.id);
+      setMyToDoList((prevList) => [
+        ...prevList,
+        { ...taskData, id: docRef.id },
+      ]);
+      reset();
+    } catch (error) {
+      console.error("veri eklenemedi", error);
+    }
   };
 
   return (

@@ -1,6 +1,8 @@
 import axios from "axios";
+import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { db } from "../firebase";
 
 function CompletedPages() {
   const [completed, setCompleted] = useState([]);
@@ -8,15 +10,23 @@ function CompletedPages() {
   const navigate = useNavigate();
   useEffect(() => {
     const fetchComplete = async () => {
-      const response = await axios.get("http://localhost:3000/completed");
-      setCompleted(response.data);
+      try {
+        const querySnapShot = await getDocs(collection(db, "completed"));
+        const todoList = querySnapShot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setCompleted(todoList);
+      } catch (error) {
+        console.error("Veri yüklenirken hata oluştu:", error);
+      }
     };
     fetchComplete();
   }, [setCompleted]);
 
   const remove = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/completed/${id}`);
+      await deleteDoc(doc(db, "completed", id));
       setCompleted(completed.filter((item) => item.id !== id));
     } catch (error) {
       console.error("Öğeyi silerken hata oluştu:", error);

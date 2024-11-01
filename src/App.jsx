@@ -12,7 +12,7 @@ function App() {
   const [myToDoList, setMyToDoList] = useLocalStorage("myTodo", []);
   const [completed, setCompleted] = useLocalStorage("completed", []);
   return (
-    <>
+    <div>
       <Routes>
         <Route element={<MainLayout />}>
           <Route
@@ -43,7 +43,7 @@ function App() {
           />
         </Route>
       </Routes>
-    </>
+    </div>
   );
 }
 

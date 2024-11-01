@@ -3,23 +3,32 @@ import { useState } from "react";
 export default function useLocalStorage(key, defaultValue) {
   const [value, setValue] = useState(() => {
     // ilk açılışta localstorage okuyoruz
-    const localVal = JSON.parse(localStorage.getItem(key));
+    const localVal = localStorage.getItem(key);
+
+    // Eğer localVal null ise, defaultValue'yu localStorage'a atıyoruz
     if (localVal === null) {
-      // boşsa default değeri, localStorage'a atıyoruz
-      // aynı değeri dönüyoruz
       localStorage.setItem(key, JSON.stringify(defaultValue));
       return defaultValue;
-    } else {
-      // localstorage boş değilse
-      // defaultValue değerini dönüyoruz
-      return localVal;
+    }
+
+    // localVal boş değilse, JSON.parse ile değeri döndürüyoruz
+    try {
+      return JSON.parse(localVal);
+    } catch (error) {
+      console.error("Error parsing localStorage item:", error);
+      return defaultValue; // Hata durumunda default değeri döndür
     }
   });
+
   // value değiştiğinde localstorage'a yazıyoruz
   // ve yeni değeri dönüyoruz
   const setLocalStorage = (newValue) => {
-    localStorage.setItem(key, JSON.stringify(newValue));
-    setValue(newValue);
+    try {
+      localStorage.setItem(key, JSON.stringify(newValue));
+      setValue(newValue);
+    } catch (error) {
+      console.error("Error setting localStorage item:", error);
+    }
   };
 
   return [value, setLocalStorage];

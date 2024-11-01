@@ -126,8 +126,8 @@ function ToDoListItems({
   });
 
   return (
-    <div>
-      <div className="flex flex-col gap-2 justify-around md:flex-row">
+    <div className="container ">
+      <div className="flex flex-col gap-2  justify-around md:flex-row">
         <button
           className="bg-blue-500 text-white rounded-full px-4 py-2"
           onClick={() => setFilter("Bugün")}

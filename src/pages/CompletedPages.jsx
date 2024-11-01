@@ -1,4 +1,7 @@
-import axios from "axios";
+import completedpng from "../../public/assets/completed.png";
+import donepng from "../../public/assets/done.png";
+import deletepng from "../../public/assets/delete.png";
+import addpng from "../../public/assets/add.png";
 import { collection, deleteDoc, doc, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -46,15 +49,10 @@ function CompletedPages() {
   return (
     <div className="flex flex-col items-center ">
       <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-96 text-center font-satisfy p-4 gap-2">
-        <img
-          src="../../public/completed.png"
-          alt="to-do-icons"
-          className="w-36"
-        />{" "}
-        TO-DO APP
+        <img src={completedpng} alt="to-do-icons" className="w-36" /> TO-DO APP
       </h1>
       <button onClick={() => navigate("/")} className="p-3">
-        <img src="../../public/add.png" className="w-12 hover:w-14" alt="" />
+        <img src={addpng} className="w-12 hover:w-14" alt="" />
       </button>
       <div className="flex">
         <input
@@ -73,7 +71,7 @@ function CompletedPages() {
             >
               <div className="flex flex-col flex-1 gap-4">
                 <img
-                  src="../../public/done.png"
+                  src={donepng}
                   className="w-12 bg-white rounded-full"
                   alt="pin"
                 />
@@ -100,7 +98,7 @@ function CompletedPages() {
                 <div className="flex items-end justify-end">
                   <button onClick={() => remove(item.id)}>
                     <img
-                      src="../../public/delete.png"
+                      src={deletepng}
                       className="w-12 hover:w-14"
                       alt="delete"
                     />

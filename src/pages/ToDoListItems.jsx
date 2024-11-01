@@ -1,4 +1,8 @@
-import axios from "axios";
+import pinpng from "../../public/assets/pin.png";
+import addpng from "../../public/assets/add.png";
+import completedpng from "../../public/assets/completed.png";
+import updatepng from "../../public/assets/update.png";
+import deletepng from "../../public/assets/delete.png";
 import {
   addDoc,
   collection,
@@ -204,7 +208,7 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
             >
               <div className="flex flex-col flex-1 gap-4">
                 <img
-                  src="../../public/pin.png"
+                  src={pinpng}
                   className="w-12 bg-white rounded-full"
                   alt="pin"
                 />
@@ -245,7 +249,7 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
                               className="mt-2 "
                             >
                               <img
-                                src="../../public/add.png"
+                                src={addpng}
                                 className="w-12 hover:w-14"
                                 alt=""
                               />
@@ -267,21 +271,21 @@ function ToDoListItems({ myToDoList, setMyToDoList }) {
                   <div className="flex gap-1 items-center justify-around flex-shrink-0 p-1 bg-white rounded-full m-4">
                     <button onClick={() => completed(item.id)}>
                       <img
-                        src="../../public/completed.png"
+                        src={completedpng}
                         className="w-12 hover:w-14"
                         alt="completed"
                       />
                     </button>
                     <button onClick={() => startEditing(item)}>
                       <img
-                        src="../../public/update.png"
+                        src={updatepng}
                         alt="update"
                         className="w-10 hover:w-12"
                       />
                     </button>
                     <button onClick={() => removeClick(item.id)}>
                       <img
-                        src="../../public/delete.png"
+                        src={deletepng}
                         alt="delete"
                         className="w-10 hover:w-12"
                       />

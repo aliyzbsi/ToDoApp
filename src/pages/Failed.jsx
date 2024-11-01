@@ -1,4 +1,6 @@
-import axios from "axios";
+import failedpng from "../../public/assets/failed.png";
+import addpng from "../../public/assets/add.png";
+
 import { collection, getDocs } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -35,11 +37,10 @@ function Failed() {
   return (
     <div className="flex flex-col items-center ">
       <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-96 text-center font-satisfy p-4 gap-2">
-        <img src="../../public/failed.png" alt="to-do-icons" className="w-36" />{" "}
-        TO-DO APP
+        <img src={failedpng} alt="to-do-icons" className="w-36" /> TO-DO APP
       </h1>
       <button onClick={() => navigate("/")} className="p-3">
-        <img src="../../public/add.png" className="w-12 hover:w-14" alt="" />
+        <img src={addpng} className="w-12 hover:w-14" alt="" />
       </button>
       <div className="flex">
         <input
@@ -58,7 +59,7 @@ function Failed() {
             >
               <div className="flex flex-col flex-1 gap-4">
                 <img
-                  src="../../public/failed.png"
+                  src={failedpng}
                   className="w-12 bg-white rounded-full"
                   alt="pin"
                 />
@@ -71,11 +72,7 @@ function Failed() {
                       <span className="border-2 text-center flex-1">
                         <div className="flex flex-col items-center">
                           Tamamlanma Tarihi:{" "}
-                          <img
-                            src="../../public/failed.png"
-                            className="w-20"
-                            alt=""
-                          />
+                          <img src={failedpng} className="w-20" alt="" />
                         </div>
                       </span>
                     </div>

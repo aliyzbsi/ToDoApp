@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import ToDoListItems from "./ToDoListItems";
+import todopng from "../../public/assets/todo.png";
+import completedpng from "../../public/assets/completed.png";
+import failedpng from "../../public/assets/failed.png";
 
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -33,8 +36,7 @@ function HomePage() {
   return (
     <div className="flex flex-col items-center gap-4">
       <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-96 text-center font-satisfy p-4">
-        <img src="../../public/todo.png" alt="to-do-icons" className="w-36" />{" "}
-        TO-DO APP
+        <img src={todopng} alt="to-do-icons" className="w-36" /> TO-DO APP
       </h1>
       <div className="flex flex-col justify-around gap-10">
         <AddTask myToDoList={myToDoList} setMyToDoList={setMyToDoList} />
@@ -42,17 +44,13 @@ function HomePage() {
           <div className="flex gap-4">
             <button onClick={() => navigate("/tamamlananlar")}>
               <img
-                src="../../public/completed.png"
+                src={completedpng}
                 className="w-12 hover:w-14"
                 alt="completed"
               />
             </button>
             <button onClick={() => navigate("/failed")}>
-              <img
-                src="../../public/failed.png"
-                className="w-12 hover:w-14"
-                alt="failed"
-              />
+              <img src={failedpng} className="w-12 hover:w-14" alt="failed" />
             </button>
           </div>
           <ToDoListItems

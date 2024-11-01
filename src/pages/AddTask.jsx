@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import addpng from "../../public/assets/add.png";
 import { useForm } from "react-hook-form";
 import { nanoid } from "nanoid";
-import axios from "axios";
+
 import { format, differenceInDays } from "date-fns";
 import { tr } from "date-fns/locale";
 import { addDoc, collection } from "firebase/firestore";
@@ -123,11 +123,7 @@ function AddTask({ setMyToDoList }) {
         </div>
         <div>
           <button className="submit-button" type="submit" disabled={!isValid}>
-            <img
-              src="../../public/add.png"
-              className="w-12 hover:w-14"
-              alt="add"
-            />
+            <img src={addpng} className="w-12 hover:w-14" alt="add" />
           </button>
         </div>
       </form>

@@ -45,7 +45,7 @@ function AddTask({ setMyToDoList }) {
   };
 
   return (
-    <div className="border">
+    <div className="border-2 border-red-500">
       <form
         className="p-2 border flex flex-col items-center gap-4  "
         onSubmit={handleSubmit(submitForm)}

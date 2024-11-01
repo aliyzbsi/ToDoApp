@@ -1,35 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function useLocalStorage(key, defaultValue) {
-  const [value, setValue] = useState(() => {
-    // ilk açılışta localstorage okuyoruz
-    const localVal = localStorage.getItem(key);
-
-    // Eğer localVal null ise, defaultValue'yu localStorage'a atıyoruz
-    if (localVal === null) {
-      localStorage.setItem(key, JSON.stringify(defaultValue));
-      return defaultValue;
-    }
-
-    // localVal boş değilse, JSON.parse ile değeri döndürüyoruz
+const useLocaleStorage = (key, initialValue) => {
+  const [storedValue, setStoredValue] = useState(() => {
     try {
-      return JSON.parse(localVal);
+      const item = window.localStorage.getItem(key);
+      // Eğer item yoksa (null veya undefined) varsayılan değeri kullan
+      return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.error("Error parsing localStorage item:", error);
-      return defaultValue; // Hata durumunda default değeri döndür
+      console.error(`localStorage error: ${error}`);
+      return initialValue;
     }
   });
 
-  // value değiştiğinde localstorage'a yazıyoruz
-  // ve yeni değeri dönüyoruz
-  const setLocalStorage = (newValue) => {
+  useEffect(() => {
     try {
-      localStorage.setItem(key, JSON.stringify(newValue));
-      setValue(newValue);
+      window.localStorage.setItem(key, JSON.stringify(storedValue));
     } catch (error) {
-      console.error("Error setting localStorage item:", error);
+      console.error(`localStorage error: ${error}`);
     }
-  };
+  }, [key, storedValue]);
 
-  return [value, setLocalStorage];
-}
+  return [storedValue, setStoredValue];
+};
+
+export default useLocaleStorage;

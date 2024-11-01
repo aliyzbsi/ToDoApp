@@ -92,6 +92,9 @@ function ToDoListItems({
       setMyToDoList((prevList) =>
         prevList.filter((todo) => todo.id !== item.id)
       );
+      if (myToDoList.length === 0) {
+        setMyToDoList([]);
+      }
     } catch (error) {
       console.error(
         "Görevi `failed` koleksiyonuna eklerken hata oluştu:",
@@ -126,7 +129,7 @@ function ToDoListItems({
   });
 
   return (
-    <div className="container ">
+    <div className="container">
       <div className="flex flex-col gap-2  justify-around md:flex-row">
         <button
           className="bg-blue-500 text-white rounded-full px-4 py-2"

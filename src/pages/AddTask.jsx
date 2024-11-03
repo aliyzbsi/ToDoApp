@@ -74,12 +74,11 @@ function AddTask({ setMyToDoList }) {
         </div>
         <div className="flex flex-col w-full">
           {" "}
-          {/* Genişlik ayarı eklendi */}
           <label htmlFor="description" className="text-normal">
             Açıklama
           </label>
           <textarea
-            className="border-1 p-2 rounded" // Padding ve köşe yuvarlama eklendi
+            className="border-1 p-2 rounded"
             id="description"
             name="description"
             {...register("description", {
@@ -99,7 +98,7 @@ function AddTask({ setMyToDoList }) {
             Son Tarih
           </label>
           <input
-            className="border-1 p-1 text-sm rounded w-full" // Padding, köşe yuvarlama ve genişlik eklendi
+            className="border-1 p-1 text-sm rounded w-full"
             type="date"
             {...register("deadline", {
               required: "Son gün seçmelisiniz",
@@ -114,11 +113,15 @@ function AddTask({ setMyToDoList }) {
         </div>
         <div>
           <button
-            className="submit-button p-2 rounded text-white" // Arka plan ve yazı rengi eklendi
+            className="submit-button p-2 rounded text-white"
             type="submit"
             disabled={!isValid}
           >
-            <img src={addpng} className="w-12 hover:w-14" alt="add" />
+            <img
+              src={addpng}
+              className="w-12 transition-transform transform scale-90 hover:scale-100 "
+              alt="add"
+            />
           </button>
         </div>
       </form>

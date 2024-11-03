@@ -24,7 +24,11 @@ function Failed({ failed }) {
         APP
       </h1>
       <button onClick={() => navigate("/")} className="p-3">
-        <img src={addpng} className="w-10 md:w-12 hover:w-14" alt="" />{" "}
+        <img
+          src={addpng}
+          className="w-10 md:w-12 transition-transform transform scale-90 hover:scale-100"
+          alt=""
+        />{" "}
       </button>
       <div className="flex w-full max-w-md">
         {" "}

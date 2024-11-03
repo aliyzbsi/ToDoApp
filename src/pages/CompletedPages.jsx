@@ -36,12 +36,13 @@ function CompletedPages({ completed, setCompleted }) {
         TO-DO APP
       </h1>
       <button onClick={() => navigate("/")} className="p-3">
-        <img src={addpng} className="w-10 md:w-12 hover:w-14" alt="" />{" "}
-        {/* Buton boyutu küçültüldü */}
+        <img
+          src={addpng}
+          className="w-10 md:w-12 transition-transform transform scale-90 hover:scale-100"
+          alt=""
+        />{" "}
       </button>
       <div className="flex w-full max-w-md">
-        {" "}
-        {/* Arama çubuğu için genişlik ayarı eklendi */}
         <input
           type="text"
           className="border-2 flex-1 p-2"
@@ -50,44 +51,34 @@ function CompletedPages({ completed, setCompleted }) {
         />
       </div>
       <div className="flex flex-col text-black text-lg rounded-2xl gap-4 w-full max-w-md break-all py-4 md:w-144">
-        {" "}
-        {/* Genişlik ayarları düzenlendi */}
         {filteredList.length > 0 &&
           filteredList.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col border-2 p-4 mt-2 border-black rounded-lg" // Yuvarlatılmış köşeler eklendi
+              className="flex flex-col border-2 p-4 mt-2 border-black rounded-lg"
             >
               <div className="flex flex-col flex-1 gap-4">
                 <img
                   src={donepng}
-                  className="w-12 bg-white rounded-full mx-auto" // Ortalanmış simge
+                  className="w-12 bg-white rounded-full mx-auto"
                   alt="pin"
                 />
                 <div className="flex flex-col justify-between gap-4">
                   <div className="flex justify-between gap-2 p-2">
-                    {" "}
-                    {/* Aralık küçültüldü */}
                     <span className="border-2 text-center flex-1 p-1">
-                      {" "}
-                      {/* Padding eklendi */}
                       Eklenme Zamanı: <br /> {item.addedTime}
                     </span>
                     <span className="border-2 text-center flex-1 p-1">
-                      {" "}
-                      {/* Padding eklendi */}
                       Tamamlanma Tarihi: <br /> {item.completedTime}
                     </span>
                   </div>
                   <div className="border-1 border-black">
                     <p className="max-w-xl uppercase font-semibold break-words whitespace-normal border-b-2 border-black p-2">
                       {" "}
-                      {/* Padding azaltıldı */}
                       {item.title}
                     </p>
                     <p className="text-base font-normal p-2">
                       {" "}
-                      {/* Padding azaltıldı */}
                       {item.description}
                     </p>
                   </div>
@@ -96,7 +87,7 @@ function CompletedPages({ completed, setCompleted }) {
                   <button onClick={() => remove(item.id)}>
                     <img
                       src={deletepng}
-                      className="w-10 hover:w-12" // Boyut küçültüldü
+                      className="w-10 transition-transform transform scale-90 hover:scale-100"
                       alt="delete"
                     />
                   </button>

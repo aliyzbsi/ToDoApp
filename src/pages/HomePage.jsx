@@ -30,12 +30,16 @@ function HomePage({
             <button onClick={() => navigate("/tamamlananlar")}>
               <img
                 src={completedpng}
-                className="w-12 hover:w-14"
+                className="w-12 transition-transform transform scale-90 hover:scale-125"
                 alt="completed"
               />
             </button>
             <button onClick={() => navigate("/failed")}>
-              <img src={failedpng} className="w-12 hover:w-14" alt="failed" />
+              <img
+                src={failedpng}
+                className="w-12 transition-transform transform scale-90 hover:scale-125"
+                alt="failed"
+              />
             </button>
           </div>
           <div className="flex flex-col w-full">

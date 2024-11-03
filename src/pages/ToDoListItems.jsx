@@ -167,10 +167,10 @@ function ToDoListItems({
                   : "border-green-400 bg-green-50"
               }`}
             >
-              <div className="flex items-start gap-4">
+              <div className="flex items-start  w-full gap-4">
                 <img
                   src={pinpng}
-                  className="w-12 bg-white rounded-full"
+                  className="w-12  bg-white rounded-full"
                   alt="pin"
                 />
                 <div className="flex flex-col flex-1">
@@ -213,7 +213,11 @@ function ToDoListItems({
                   />
                   <div className="flex w-full justify-center p-2">
                     <button onClick={() => updated(item.id)} className="mt-2">
-                      <img src={addpng} className="w-12 hover:w-14" alt="" />
+                      <img
+                        src={addpng}
+                        className="w-12 transition-transform transform scale-90 hover:scale-100"
+                        alt=""
+                      />
                     </button>
                   </div>
                 </div>
@@ -223,7 +227,7 @@ function ToDoListItems({
                 <button onClick={() => markAsCompleted(item.id)}>
                   <img
                     src={completedpng}
-                    className="w-12 hover:w-14"
+                    className="w-12 transition-transform transform scale-90 hover:scale-100"
                     alt="completed"
                   />
                 </button>
@@ -231,14 +235,14 @@ function ToDoListItems({
                   <img
                     src={updatepng}
                     alt="update"
-                    className="w-10 hover:w-12"
+                    className="w-10 transition-transform transform scale-90 hover:scale-100"
                   />
                 </button>
                 <button onClick={() => removeClick(item.id)}>
                   <img
                     src={deletepng}
                     alt="delete"
-                    className="w-10 hover:w-12"
+                    className="w-10 transition-transform transform scale-90 hover:scale-100"
                   />
                 </button>
               </div>

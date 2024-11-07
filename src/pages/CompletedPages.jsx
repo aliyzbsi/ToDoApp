@@ -40,7 +40,8 @@ function CompletedPages({ completed, setCompleted }) {
           src={addpng}
           className="w-10 md:w-12 transition-transform transform scale-90 hover:scale-100"
           alt=""
-        />{" "}
+        />
+        HP
       </button>
       <div className="flex w-full max-w-md">
         <input

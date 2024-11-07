@@ -134,7 +134,7 @@ function ToDoListItems({
         {["Bugün", "Bu Hafta", "Bu Ay", "Bu Yıl", "Hepsi"].map((label) => (
           <button
             key={label}
-            className="bg-blue-500 text-white rounded-full px-4 py-2 transition duration-200 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+            className="bg-blue-700 text-white rounded-full px-4 py-2 transition duration-200 hover:bg-blue-800 focus:outline-none focus:ring focus:ring-blue-400"
             onClick={() => setFilter(label)}
           >
             {label}

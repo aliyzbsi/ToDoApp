@@ -29,8 +29,8 @@ function CompletedPages({ completed, setCompleted }) {
   });
 
   return (
-    <div className="flex flex-col items-center h-screen">
-      <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-full max-w-md text-center font-satisfy p-4 gap-2">
+    <div className="flex flex-col items-center h-full">
+      <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-full max-w-md text-white text-center font-satisfy p-4 gap-2">
         <img src={completedpng} alt="to-do-icons" className="w-12 md:w-36" />{" "}
         {/* Küçük ekranlarda simge boyutu azaltıldı */}
         TO-DO APP

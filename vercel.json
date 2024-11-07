@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/tamamlananlar", "destination": "/" },
+    { "source": "/failed", "destination": "/" }
+  ]
+}

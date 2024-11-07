@@ -18,7 +18,7 @@ function Failed({ failed }) {
     return matchesSearch;
   });
   return (
-    <div className="flex flex-col items-center h-screen">
+    <div className="flex flex-col items-center h-full">
       <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-full text-white max-w-md text-center font-satisfy p-4 gap-2">
         <img src={failedpng} alt="to-do-icons" className="w-12 md:w-36" /> TO-DO
         APP

@@ -18,8 +18,8 @@ function Failed({ failed }) {
     return matchesSearch;
   });
   return (
-    <div className="flex flex-col items-center">
-      <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-full max-w-md text-center font-satisfy p-4 gap-2">
+    <div className="flex flex-col items-center h-screen">
+      <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-full text-white max-w-md text-center font-satisfy p-4 gap-2">
         <img src={failedpng} alt="to-do-icons" className="w-12 md:w-36" /> TO-DO
         APP
       </h1>
@@ -45,7 +45,7 @@ function Failed({ failed }) {
           filteredList.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col border-4 p-4 mt-2 border-red-600 rounded-lg"
+              className="flex flex-col border-4 p-4 mt-2 border-red-600 bg-white rounded-lg"
             >
               <div className="flex flex-col gap-2">
                 <img

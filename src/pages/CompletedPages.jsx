@@ -29,7 +29,7 @@ function CompletedPages({ completed, setCompleted }) {
   });
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center h-screen">
       <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 w-full max-w-md text-center font-satisfy p-4 gap-2">
         <img src={completedpng} alt="to-do-icons" className="w-12 md:w-36" />{" "}
         {/* Küçük ekranlarda simge boyutu azaltıldı */}
@@ -55,7 +55,7 @@ function CompletedPages({ completed, setCompleted }) {
           filteredList.map((item) => (
             <div
               key={item.id}
-              className="flex flex-col border-2 p-4 mt-2 border-black rounded-lg"
+              className="flex flex-col border-2 p-4 mt-2 border-black bg-white rounded-3xl"
             >
               <div className="flex flex-col flex-1 gap-4">
                 <img

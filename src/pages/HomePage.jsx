@@ -19,14 +19,14 @@ function HomePage({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <h1 className="flex items-center text-4xl border-b-4 border-yellow-500  text-center font-satisfy p-4">
-        <img src={todopng} alt="to-do-icons" className="w-36" /> TO-DO APP
+      <h1 className="flex items-center text-4xl border-b-4 border-yellow-500 text-white text-center font-satisfy p-4">
+        <img src={todopng} alt="to-do-icons" className="w-36 " /> TO-DO APP
       </h1>
       <div className="flex flex-col justify-around gap-10 w-full max-w-md">
         {" "}
         <AddTask myToDoList={myToDoList} setMyToDoList={setMyToDoList} />
         <div className="flex flex-col items-center gap-10">
-          <div className="flex gap-4">
+          <div className="flex gap-4 bg-white w-full p-2 justify-center rounded-3xl">
             <button onClick={() => navigate("/tamamlananlar")}>
               <img
                 src={completedpng}

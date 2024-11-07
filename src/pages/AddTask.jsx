@@ -45,9 +45,9 @@ function AddTask({ setMyToDoList }) {
   };
 
   return (
-    <div className="border-2">
+    <div className="border-2 rounded-2xl bg-white">
       <form
-        className="p-2 border flex flex-col items-center gap-4 w-full max-w-md"
+        className="p-2 flex flex-col items-center gap-4 w-full max-w-md"
         onSubmit={handleSubmit(submitForm)}
       >
         <div className="flex flex-col w-full">
@@ -56,7 +56,7 @@ function AddTask({ setMyToDoList }) {
             Başlık
           </label>
           <input
-            className="border-1 p-2 rounded"
+            className="border-1 p-2 rounded text-black"
             type="text"
             id="title"
             name="title"
